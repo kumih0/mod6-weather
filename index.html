@@ -12,27 +12,71 @@
     <header>
         <h1>What's the Weather? Dashboard</h1>
     </header>
-    <main class="container-fluid">
-        <div class="flex-row align-start align-stretch-md align-content-start align-content-stretch-md min-100-vh bg-primary">
-            <div class="col-md-2 d-none d-md-block bg-light sidebar">
-                <div class="sidebar-sticky">
-                    <h2 class="text-primary">Search for a City:</h2>
-                    <form id="search-form" class="mb-2">
-                        <input id="search-input" class="form-input w-100" type="text" placeholder="Search!" />
-                        <button class="btn btn-info btn-block">Search</button>
-                    </form>
-                </div>
-             </div>
-            <div class="row">
-                <div class="col-12 col-lg-3">
+    <div class="container-fluid">            
+        <div class="row">
+            <!-- <div class="flex-row align-start align-stretch-md align-content-start align-content-stretch-md min-100-vh bg-primary"> -->
+                <div class="col-md-2 d-none d-md-block bg-light sidebar">
+                    <div class="sidebar-sticky">
 
-                </div>
-                <div class="col-12 col-lg-9">
+                        <h2 class="text-primary">Search for a City:</h2>
+                        <form id="search-form" class="mb-2">
+                            <input id="search-input" class="form-input w-100" type="text" placeholder="Search!" />
+                            <button class="btn btn-info btn-block">Search</button>
+                        </form>
 
+                        <ul class="search-history flex-column mb-2">
+                        </ul>
+                    </div>
                 </div>
-            </div>
+
+                <main class="col-12 col-md-9 p-3 text-light">
+                    <h2>Showing weather for <span id="city-name"></span></h2>
+                    <div class="col-12" id="today-forecast-container">
+                        <h2><span id="city-name"></span><span id="date-today"></span></h2>
+                        <p id="today-forecast"></p>
+                        <a href="#" class="btn btn-primary">Save?</a>
+                    </div>
+                    <div id="week-forecast-container">
+                        <h3>5 Day Forecast:</h3>
+                        <div class="row align-items-center">
+                            <div class="col card-body">
+                              Day 1
+                                <h5 class="card-title"><span id="date-tomorrow"></span></h5>
+                                <p class="card-text" id="forecast-tomorrow"></p>
+                                <a href="#" class="btn btn-primary">Save?</a>
+                              </div>
+                            </div>
+                            <div class="col card-body">
+                              Day 2
+                              <h5 class="card-title"><span id="date-plus2"></span></h5>
+                              <p class="card-text" id="forecast-plus2"></p>
+                              <a href="#" class="btn btn-primary">Save?</a>
+                            </div>
+                            <div class="col card-body">
+                              Day 3
+                              <h5 class="card-title"><span id="date-plus3"></span></h5>
+                              <p class="card-text" id="forecast-plus3"></p>
+                              <a href="#" class="btn btn-primary">Save?</a>
+                            </div>
+                            <div class="col card-body">
+                                Day 4
+                                <h5 class="card-title"><span id="date-plus4"></span></h5>
+                                <p class="card-text" id="forecast-plus4"></p>
+                                <a href="#" class="btn btn-primary">Save?</a>
+                              </div>
+                            <div class="col card-body">
+                                Day 5
+                                <h5 class="card-title"><span id="date-plus5"></span></h5>
+                                <p class="card-text" id="forecast-plus5"></p>
+                                <a href="#" class="btn btn-primary">Save?</a>
+                              </div>
+                          </div>
+                    </div>
+                  </div>                    
+                </main>
+            <!-- </div> -->
         </div>
-    </main>
+    </div>
     <script src="assets/js/script.js"></script>
 </body>
 </html>
