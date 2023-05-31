@@ -1,5 +1,6 @@
 var geocodeURL = "http://api.openweathermap.org/geo/1.0/direct?";
 var searchInput = document.getElementById("search-input");
+var searchBtn = document.getElementById("btn");
 var currentForecast = document.getElementById("today-forecast-container");
 var cityName = document.getElementById("city-name");
 var dateToday = document.getElementById("date-today");
@@ -34,7 +35,9 @@ getCoords(geocodeURL);
 console.log(cityLat, cityLon);
 
 function newSearch() {
-    
+    q = "q=" + searchInput.textContent;
+    getCoords();
 }
 
+searchBtn.addEventListener("click", newSearch);
 // endpoint https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
