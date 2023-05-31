@@ -1,8 +1,9 @@
 var geocodeURL = "http://api.openweathermap.org/geo/1.0/direct?";
 var currentWeatherURL = "https://api.openweathermap.org/data/2.5/weather?"
 var searchInput = document.getElementById("search-input");
-var searchBtn = document.getElementById("btn");
+var searchForm = document.getElementById("search-form");
 var currentForecast = document.getElementById("today-forecast-container");
+var todayWeatherEl = document.getElementById("today-forecast");
 var cityName = document.getElementById("city-name");
 var dateToday = document.getElementById("date-today");
 var cityLat;
@@ -32,20 +33,26 @@ function getCoords(geocodeURL){
         // attaching lat and lon values to global var and returning the reassigned values
         cityLat = data[0].lat;
         cityLon = data[0].lon;
-
-        return cityLat, cityLon;
+        console.log(cityLat, cityLon);
+        // return cityLat, cityLon;
+        todayForecast();
     })
 }
 
 getCoords(geocodeURL);
-console.log(cityLat, cityLon);
+
 
 function newSearch() {
-    q = "q=" + searchInput.textContent;
-    getCoords();
+    if (q == "") {
+        //add error msg?
+        getCoords();
+    } else {
+        q = "q=" + searchInput.textContent;
+        getCoords();
+    }
 }
 
-searchBtn.addEventListener("submit", newSearch);
+searchForm.addEventListener("submit", newSearch);
 
 function todayForecast(currentWeatherURL) {
     currentWeatherURL = currentWeatherURL + "lat=" + cityLat + "&lon=" + cityLon + appid;
