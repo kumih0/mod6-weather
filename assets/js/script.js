@@ -1,5 +1,5 @@
-var geocodeURL = "http://api.openweathermap.org/geo/1.0/direct?";
-var currentWeatherURL = "https://api.openweathermap.org/data/2.5/weather?"
+var geocodeBaseURL = "http://api.openweathermap.org/geo/1.0/direct";
+var currentWeatherBaseURL = "https://api.openweathermap.org/data/2.5/weather"
 var searchInput = document.getElementById("search-input");
 var searchForm = document.getElementById("search-form");
 var currentForecast = document.getElementById("today-forecast-container");
@@ -13,20 +13,13 @@ var appid = "&appid=1f009ad3e6df93960048fd13eb3d2cc2";
 var temp;
 var wind;
 var humidity;
+var geocodeURL = geocodeBaseURL +"?" + "q=Chicago" + "&limit=1" + appid;
+
 
 function getCoords(geocodeURL){
-// creating modular fetch request url, location city name can be open for user input.
-// if no user input to draw from, will default to chicago
-    if (q == "") {
-        cityName.textContent = "Chicago";
-        geocodeURL = geocodeURL + "q=Chicago" + "&limit=1" + appid;
-    } else{
-        cityName.textContent = q - "q=";
-        geocodeURL = geocodeURL + q + "&limit=1" + appid;
-    }
     fetch(geocodeURL)
     .then(function (response) {
-        return response.json();
+        response.json();
     })
     // returning data as json object/array
     .then(function (data) {
@@ -37,6 +30,19 @@ function getCoords(geocodeURL){
         // return cityLat, cityLon;
         todayForecast();
     })
+}
+
+function makeGeoURL() {
+    // creating modular fetch request url, location city name can be open for user input.
+    // if no user input to draw from, will default to chicago
+        if (q == "") {
+            cityName.textContent = "Chicago";
+            geocodeURL = geocodeBaseURL +"?" + "q=Chicago" + "&limit=1" + appid;
+        } else{
+            cityName.textContent = q - "q=";
+            geocodeURL = geocodeBaseURL +"?" + q + "&limit=1" + appid;
+        }
+    return geocodeURL;
 }
 
 getCoords(geocodeURL);
@@ -55,20 +61,29 @@ function newSearch() {
 searchForm.addEventListener("submit", newSearch);
 
 function todayForecast(currentWeatherURL) {
-    currentWeatherURL = currentWeatherURL + "lat=" + cityLat + "&lon=" + cityLon + appid;
+    currentWeatherURL = currentWeatherBaseURL +"?lat=" + cityLat + "&lon=" + cityLon + "&units=imperial" + appid;
     
     console.log(currentWeatherURL);
     fetch(currentWeatherURL)
     .then(function (response) {  
-        return response.json;
+        response.json()
     })
     .then(function (data) {  
         console.log(data);
-        var icon = data[1].icon;
-        temp = data[3].temp;
-        wind = data[5].speed;
-        humidity = data[3].humidity;
+        var icon = todayWeatherEl.createElement("img");
+        var iconPng = data.weather.icon;
 
+        temp = data.main.temp;
+        wind = data.wind.speed;
+        humidity = data.main.humidity;
+        var todayWeather = {
+            Temp: temp + "ºF",
+            Wind: wind + "mph",
+            Humidity: humidity + "%",
+        }
+        console.log(temp, wind, humidity);
+        console.log(todayWeather);
+        todayWeatherEl.textContent = todayWeather;
 
     })
 
