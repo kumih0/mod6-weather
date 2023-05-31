@@ -1,4 +1,4 @@
-# mod6-weather
+j# mod6-weather
 Module 6 Challenge Assignment - Weather Dashboard
 
 ## User Story
@@ -26,3 +26,49 @@ THEN I am again presented with current and future conditions for that city
 The weather app includes a search option, a list of cities, and a five-day forecast and current weather conditions for Atlanta.
 
 ## Pseudo-code
+    HTML:
+    - layout html skeleton:
+        header
+        sidebar
+            -form, text input 
+                search button
+            -search history div
+        main body
+            -top container
+                -name of city
+                -date (today/current)
+                -relevant icon relating to weather
+                -weather forecast> temp, humidity, wind
+            -bottom container
+                -5 day forecast heading
+                -5 days out forecast, separate div cards
+                -date, icon, headers
+                -body text: temp, humidity, wind
+    
+    js:
+    - set default city to load
+    - fetch weather forecast data thru api call to openweather api
+        -set variables for location inputs as default location
+        -create separate functions to call w global var:
+            -take input of city name, geocode 
+                -geocoded object as retrieved coordinates
+            -take coordinates and fetch current weather
+            -take coordinates and fetch 5day forecast
+    -set click event on search button, form submit
+        -call on function to geocode city name
+            -use global var to store input from user
+            -SAVE input city name and coordinates to local storage
+            -retrieve coordinates of user input city
+                Error or cancel form display, (reroute to another html pg? modal alert?) if city name not found
+        -plug user input coordinates into fetch current weather funct
+            -append to p element in today-forecast div
+        -plug user input coordinates into 5day forecast funct
+            -display 5day forecast, append to div element week-forecast
+    -load and display previous searched cities from local storage
+        -convert saved city name into obj w coord
+        -create fetch request url of weather from saved location 
+        -display only city name as click-able button or div
+        -append link to div container
+        -for/while loop to repeat funct for more than one previous searched city
+        -display each as a separate div
+        
