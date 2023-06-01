@@ -92,7 +92,7 @@ function todayForecast(currentWeatherURL) {
         document.getElementById("today-icon").src = iconPng;
         todayWeatherEl.innerText = "Temp: " + temp + "ºF" + "\r\n" + "Wind: " + wind + "mph" + "\r\n" + "Humidity: " + humidity + "%";
 
-        return;
+        getFiveDay();
     })
 
 }
@@ -107,7 +107,40 @@ function getFiveDay(fiveDayURL) {
         return response.json()
     })
     .then(function (data) { 
-        
+        console.log(data);
+        let date1 = dayjs(data.list[3].dt_txt).format("M/D/YYYY");
+
+        console.log(date1);
+        // let day1 = data.list[3];
+        // let day2 = data.list[11];
+        // let day3 = data.list[19];
+        // let day4 = data.list[27];
+        // let day5 = data.list[35];
+        var weekArray = [data.list[3], data.list[11], data.list[19], data.list[27], data.list[35]];
+
+        weekArray.forEach(index => {
+            document.createElement('<div class="col card-body" id="week-forecast"><h5 class="card-title"></h5><img src="#" id="weather-icon" alt="weather-icon"></div>');
+            var weekDayEl = document.getElementById("week-forecast");
+            weekDayEl.setAttribute("id", "week-forecast" + [index]);
+            console.log(weekDayEl);
+
+            var dayDate = document.weekDayEl.getElementsByClassName("card-title");
+            console.log(dayDate);
+            dayDate.innerText
+
+            var weatherIcon = document.getElementById("weather-icon");
+            weatherIcon.setAttribute("id", "weather-icon" + [index]);
+            console.log(weatherIcon);
+            let icon = "https://openweathermap.org/img/wn/" + weekArray[index].weather[0].icon + ".png";
+
+            let temp = weekArray[index].main.temp;
+            let wind = weekArray[index].wind.speed;
+            let humidity = weekArray[index].main.humidity;
+
+            weatherIcon.src = icon;
+            weekDayEl.innerText = "Temp: " + temp + "ºF" + "\r\n" + "Wind: " + wind + "mph" + "\r\n" + "Humidity: " + humidity + "%";
+        });
+
      })
     
 }
