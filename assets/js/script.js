@@ -108,10 +108,9 @@ function getFiveDay(fiveDayURL) {
         return response.json()
     })
     .then(function (data) { 
-        console.log(data);
-        let date1 = dayjs(data.list[3].dt_txt).format("M/D/YYYY");
+        // console.log(data);
+        // let date1 = dayjs(data.list[3].dt_txt).format("M/D/YYYY");
 
-        console.log(date1);
         // let day1 = data.list[3];
         // let day2 = data.list[11];
         // let day3 = data.list[19];
@@ -122,7 +121,7 @@ function getFiveDay(fiveDayURL) {
         for (let index = 0; index < weekArray.length; index++) {
             console.log(weekArray[index]);
             var cardDiv = document.createElement("div");
-            cardDiv.setAttribute("class", "col-3 card-body rounded border border-primary border-2 p-2");
+            cardDiv.setAttribute("class", "col-2 card-body rounded border border-primary border-2 p-2");
 
             var weekDayEl = document.createElement("div");
             weekDayEl.setAttribute("id", "week-forecast" + index);
@@ -147,7 +146,7 @@ function getFiveDay(fiveDayURL) {
             let humidity = weekArray[index].main.humidity;
 
             weatherIcon.src = icon;
-            weekDayEl.innerText = "Temp: " + temp + "ºF" + "\r\n" + "Wind: " + wind + "mph" + "\r\n" + "Humidity: " + humidity + "%";
+            weekDayEl.innerText = "Temp: " + temp + "ºF" + "\r\n" + "Wind:  " + wind + " mph" + "\r\n" + "Humidity: " + humidity + "%";
 
             fiveDayForecast.appendChild(cardDiv);
             cardDiv.appendChild(dayDate);
