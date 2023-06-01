@@ -81,5 +81,7 @@ The weather app includes a search option, a list of cities, and a five-day forec
 <img width="1499" alt="Screen Shot 2023-06-01 at 12 50 29 AM" src="https://github.com/kumih0/mod6-weather/assets/132851569/6d01ecde-3085-4901-9bcd-f0367410aaf3">
 
 # Live Link
+https://kumih0.github.io/mod6-weather/
 
+for some reason the livee link is not using the correct links? https vs http (changed links and it works just fine on devtools/vs code/open in browser
 sorry it is late i have work as well as class and the bills are relentless and unforgiving wenches
