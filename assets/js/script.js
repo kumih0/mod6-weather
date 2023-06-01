@@ -27,10 +27,10 @@ function getCoords(cityName){
     // if no user input to draw from, will default to chicago
     if (cityName === undefined) {
         cityNameEl.textContent = "Chicago";
-        geocodeURL = "http://api.openweathermap.org/geo/1.0/direct?q=Chicago&limit=1" + appid;
+        geocodeURL = "https://api.openweathermap.org/geo/1.0/direct?q=Chicago&limit=1" + appid;
     } else{
         cityNameEl.textContent = cityName;
-        geocodeURL = "http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&limit=1" + appid;
+        geocodeURL = "https://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&limit=1" + appid;
     }
 
     fetch(geocodeURL)
@@ -145,6 +145,6 @@ searchForm.addEventListener("submit", function newSearch(event) {
  });
 
  //click event on searched cities buttons, targets parent container and direct to dynamically created buttons if they exist
- searchHistory.addEventListener("click", function btnCityClicky(event) {
-    getCoords(event.target.innerText);    
+ searchHistory.addEventListener("click", function (event) {
+    getCoords(event.target.textContent);    
  });
