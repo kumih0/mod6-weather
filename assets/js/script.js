@@ -1,5 +1,5 @@
 var geocodeBaseURL = "http://api.openweathermap.org/geo/1.0/direct";
-var currentWeatherBaseURL = "https://api.openweathermap.org/data/2.5/weather"
+// var currentWeatherBaseURL = "https://api.openweathermap.org/data/2.5/weather"
 
 var searchInput = document.getElementById("search-input");
 var searchForm = document.getElementById("search-form");
@@ -7,7 +7,7 @@ var searchForm = document.getElementById("search-form");
 var currentForecast = document.getElementById("today-forecast-container");
 var todayWeatherEl = document.getElementById("today-forecast");
 var fiveDayForecast = document.getElementById("week-forecast-container");
-var fiveDayEl = document.getElementById("week-forecast");
+// var fiveDayEl = document.getElementById("week-forecast");
 
 var cityName = document.getElementById("city-name");
 // var dateToday = dayjs().format(" (M/D/YYYY)");
@@ -77,7 +77,7 @@ function newSearch() {
 searchForm.addEventListener("submit", newSearch);
 
 function todayForecast(currentWeatherURL) {
-    currentWeatherURL = currentWeatherBaseURL +"?lat=" + cityLat + "&lon=" + cityLon + "&units=imperial" + appid;
+    currentWeatherURL = "https://api.openweathermap.org/data/2.5/weather?lat=" + cityLat + "&lon=" + cityLon + "&units=imperial" + appid;
 
     fetch(currentWeatherURL)
     .then(function (response) {  
@@ -119,19 +119,27 @@ function getFiveDay(fiveDayURL) {
         // let day5 = data.list[35];
         var weekArray = [data.list[3], data.list[11], data.list[19], data.list[27], data.list[35]];
 
-        weekArray.forEach(index => {
-            document.createElement('<div class="col card-body" id="week-forecast"><h5 class="card-title"></h5><img src="#" id="weather-icon" alt="weather-icon"></div>');
-            var weekDayEl = document.getElementById("week-forecast");
-            weekDayEl.setAttribute("id", "week-forecast" + [index]);
-            console.log(weekDayEl);
+        for (let index = 0; index < weekArray.length; index++) {
+            console.log(weekArray[index]);
+            var cardDiv = document.createElement("div");
+            cardDiv.setAttribute("class", "col-3 card-body rounded border border-primary border-2 p-2");
 
-            var dayDate = document.weekDayEl.getElementsByClassName("card-title");
-            console.log(dayDate);
+            var weekDayEl = document.createElement("div");
+            weekDayEl.setAttribute("id", "week-forecast" + index);
+
+            var dayDate = document.createElement("h5");
+            dayDate.setAttribute("id", "card-title" + index);
+
+            var weatherIcon = document.createElement("img");
+            weatherIcon.setAttribute("class", "card-body");
+            weatherIcon.setAttribute("id", "weather-icon" + index);
+
+            console.log(weekDayEl);
             dayDate.innerText = dayjs(weekArray[index].dt_txt).format("M/D/YYYY");
 
-            var weatherIcon = document.getElementById("weather-icon");
-            weatherIcon.setAttribute("id", "weather-icon" + [index]);
+            console.log(dayDate.innerText);
             console.log(weatherIcon);
+
             let icon = "https://openweathermap.org/img/wn/" + weekArray[index].weather[0].icon + ".png";
 
             let temp = weekArray[index].main.temp;
@@ -140,7 +148,47 @@ function getFiveDay(fiveDayURL) {
 
             weatherIcon.src = icon;
             weekDayEl.innerText = "Temp: " + temp + "ºF" + "\r\n" + "Wind: " + wind + "mph" + "\r\n" + "Humidity: " + humidity + "%";
-        });
+
+            fiveDayForecast.appendChild(cardDiv);
+            cardDiv.appendChild(dayDate);
+            cardDiv.appendChild(weatherIcon);
+            cardDiv.appendChild(weekDayEl);
+        }
+        // weekArray.forEach(index => {
+        //     console.log(weekArray[index]);
+        //     var weekDayEl = document.createElement("div");
+        //     weekDayEl.setAttribute("id", "week-forecast" + index);
+        //     var dayDate = document.createElement("h5");
+        //     dayDate.setAttribute("id", "card-title" + index);
+        //     var weatherIcon = document.createElement("img");
+        //     weatherIcon.setAttribute("id", "weather-icon" + index)
+
+        //     // var weekDayEl = document.getElementById("week-forecast");
+        //     // weekDayEl.setAttribute("id", "week-forecast" + [index]);
+        //     console.log(weekDayEl);
+
+        //     // var dayDate = document.getElementsByClassName("card-title");
+        //     // console.log(dayDate);
+        //     // dayDate[0].setAttribute("className", "card-title" + [index])
+        //     dayDate[0].innerText = dayjs(weekArray[index].dt_txt).format("M/D/YYYY");
+        //     console.log(dayDate.innerText);
+
+        //     // var weatherIcon = document.getElementById("weather-icon");
+        //     // weatherIcon.setAttribute("id", "weather-icon" + [index]);
+        //     console.log(weatherIcon);
+        //     let icon = "https://openweathermap.org/img/wn/" + weekArray[index].weather[0].icon + ".png";
+
+        //     let temp = weekArray[index].main.temp;
+        //     let wind = weekArray[index].wind.speed;
+        //     let humidity = weekArray[index].main.humidity;
+
+        //     weatherIcon.src = icon;
+        //     weekDayEl.innerText = "Temp: " + temp + "ºF" + "\r\n" + "Wind: " + wind + "mph" + "\r\n" + "Humidity: " + humidity + "%";
+
+        //     fiveDayForecast.appendChild(dayDate);
+        //     fiveDayForecast.appendChild(weatherIcon);
+        //     fiveDayForecast.appendChild(weekDayEl);
+        // });
 
      })
     
