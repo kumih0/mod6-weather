@@ -57,18 +57,28 @@ The weather app includes a search option, a list of cities, and a five-day forec
     -set click event on search button, form submit
         -call on function to geocode city name
             -use global var to store input from user
-            -SAVE input city name and coordinates to local storage
+            -SAVE input city name to local storage
             -retrieve coordinates of user input city
-                Error or cancel form display, (reroute to another html pg? modal alert?) if city name not found
+                if city name not entered, set default
         -plug user input coordinates into fetch current weather funct
-            -append to p element in today-forecast div
+            -append to element in today-forecast div
         -plug user input coordinates into 5day forecast funct
             -display 5day forecast, append to div element week-forecast
     -load and display previous searched cities from local storage
-        -convert saved city name into obj w coord
-        -create fetch request url of weather from saved location 
-        -display only city name as click-able button or div
-        -append link to div container
+        -convert saved city name into obj
+        -create fetch request of weather from saved location (reuse same functions as current weather and 5day fetch)
+        -display only city name as click-able button
+        -append to div container
         -for/while loop to repeat funct for more than one previous searched city
-        -display each as a separate div
+        -display each as a separate button
         
+## Description
+```
+    To try and simplify the overall flow, I created a default setting to plug in Chicago to make sure my code was working and have something on the display page. I organized the layout with bootstrap accordingly and had little custom css. I practiced both hard coded elements and dynamically creating elements through javascript in the current weather functions and five day forecast, respectively. API calls for relevant information and ignoring extraneous data.
+```
+
+## Screenshot
+
+# Live Link
+
+sorry it is late i have work as well as class and the bills are relentless and unforgiving wenches
