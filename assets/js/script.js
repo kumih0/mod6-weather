@@ -1,23 +1,36 @@
 var geocodeBaseURL = "http://api.openweathermap.org/geo/1.0/direct";
 var searchInput = document.getElementById("search-input");
 var searchForm = document.getElementById("search-form");
+var searchHistory = document.getElementById("search-history");
 
 var currentForecast = document.getElementById("today-forecast-container");
 var todayWeatherEl = document.getElementById("today-forecast");
 var fiveDayForecast = document.getElementById("week-forecast-container");
 
-var cityName = document.getElementById("city-name");
+var cityNameEl = document.getElementById("city-name");
+var cityName = "";
 var dateTodayEl = document.getElementById("date-today");
 dateTodayEl.innerText = dayjs().format(" (M/D/YYYY)");
 
-var cityLat = 41.8755616; //chicago default
-var cityLon = -87.6244212; //chicago default
-var q = "";    
+var cityLat;
+var cityLon; 
 var appid = "&appid=1f009ad3e6df93960048fd13eb3d2cc2";
-var geocodeURL = geocodeBaseURL +"?" + "q=Chicago" + "&limit=1" + appid;
+var geocodeURL = "";
 
-getCoords(geocodeURL);
-function getCoords(geocodeURL){
+getCoords(cityName); //sets default to chicago
+
+
+function getCoords(cityName){
+    // creating modular fetch request url, location city name can be open for user input.
+    // if no user input to draw from, will default to chicago
+    if (cityName !== "") {
+        cityNameEl.textContent = cityName;
+        geocodeURL = "http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&limit=1" + appid;
+    } else{
+        cityNameEl.textContent = "Chicago";
+        geocodeURL = "http://api.openweathermap.org/geo/1.0/direct?q=Chicago&limit=1" + appid;
+    }
+
     fetch(geocodeURL)
     .then(function (response) {
         return response.json()
@@ -30,30 +43,25 @@ function getCoords(geocodeURL){
         todayForecast();
     })
 }
+//creates array for search history of cities in local storage
+var searchedCities = JSON.parse(localStorage.getItem("searchedCities")) || [];
 
-function makeGeoURL() {
-    // creating modular fetch request url, location city name can be open for user input.
-    // if no user input to draw from, will default to chicago
-        // if (q !== "") {
-            geocodeURL = geocodeBaseURL +"?" + q + "&limit=1" + appid;
-        // } else{
-        //     cityName.textContent = "Chicago";
-        //     geocodeURL = geocodeBaseURL +"?" + "q=Chicago" + "&limit=1" + appid;
-        // }      
-        getCoords(geocodeURL);
-}
-
-// function newSearch(event) {
-    
-
-// }
 searchForm.addEventListener("submit", function newSearch(event) { 
-        event.preventDefault();
-        cityName = searchInput.value;
-        console.log(cityName);
-        q = "q=" + cityName;
-        console.log(q);
-        makeGeoURL(cityName, q);
+    event.preventDefault();
+    cityName = searchInput.value;
+    console.log(cityName);        
+    //saving past searches to local storage and display as buttons in sidebar
+    if(!searchedCities.includes(cityName)){
+        searchedCities.push(cityName);
+        localStorage.setItem("searchedCities", JSON.stringify(searchedCities));
+    }
+    if (cityName){
+        getCoords(cityName);
+        searchHistory.innerHTML = "";
+
+
+        }
+
  });
 
 function todayForecast(currentWeatherURL) {
@@ -130,10 +138,4 @@ function getFiveDay(fiveDayURL) {
         }
      })
     
-}
-
-//saving past searches to local storage
-function searchHistory(event) {
-    event.preventDefault();
-
 }
