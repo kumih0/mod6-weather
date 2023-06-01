@@ -1,25 +1,27 @@
-var geocodeBaseURL = "http://api.openweathermap.org/geo/1.0/direct";
-var searchInput = document.getElementById("search-input");
-var searchForm = document.getElementById("search-form");
-var searchHistory = document.getElementById("search-history");
-
-var currentForecast = document.getElementById("today-forecast-container");
-var todayWeatherEl = document.getElementById("today-forecast");
-var fiveDayForecast = document.getElementById("week-forecast-container");
+//global vars
+var geocodeURL = "";
+var cityLat;
+var cityLon; 
+var appid = "&appid=1f009ad3e6df93960048fd13eb3d2cc2";
 
 var cityNameEl = document.getElementById("city-name");
 var cityName = "";
 var dateTodayEl = document.getElementById("date-today");
 dateTodayEl.innerText = dayjs().format(" (M/D/YYYY)");
 
-var cityLat;
-var cityLon; 
-var appid = "&appid=1f009ad3e6df93960048fd13eb3d2cc2";
-var geocodeURL = "";
+var currentForecast = document.getElementById("today-forecast-container");
+var todayWeatherEl = document.getElementById("today-forecast");
+var fiveDayForecast = document.getElementById("week-forecast-container");
+
+var searchInput = document.getElementById("search-input");
+var searchForm = document.getElementById("search-form");
+var searchHistory = document.getElementById("search-history");
+//creates array for search history of cities in local storage
+var searchedCities = JSON.parse(localStorage.getItem("searchedCities")) || [];
 
 getCoords(cityName); //sets default to chicago
 
-
+//functions
 function getCoords(cityName){
     // creating modular fetch request url, location city name can be open for user input.
     // if no user input to draw from, will default to chicago
@@ -43,37 +45,6 @@ function getCoords(cityName){
         todayForecast();
     })
 }
-//creates array for search history of cities in local storage
-var searchedCities = JSON.parse(localStorage.getItem("searchedCities")) || [];
-
-searchForm.addEventListener("submit", function newSearch(event) { 
-    event.preventDefault();
-    cityName = searchInput.value;     
-    //saving past searches to local storage and display as buttons in sidebar
-    if(!searchedCities.includes(cityName)){
-        searchedCities.push(cityName);
-        localStorage.setItem("searchedCities", JSON.stringify(searchedCities));
-    }
-    if (cityName){
-        getCoords(cityName);
-        searchHistory.innerHTML = "";
-    //repeats the appending of buttons in relation to saved in local storage
-        for (let index = 0; index < searchedCities.length; index++) {
-            var btnCityName = document.createElement("button");
-            btnCityName.setAttribute("class", "btn rounded border bg-secondary text-center");
-            btnCityName.setAttribute("id", "btn" + cityName);
-            btnCityName.textContent = searchedCities[index];
-            searchHistory.appendChild(btnCityName);
-        }
-     } else {
-        getCoords();
-     }
- });
-
- //click event on searched cities buttons, targets parent container and direct to dynamically created buttons if they exist
- searchHistory.addEventListener("click", function btnCityClicky(event) {
-    getCoords(event.target.innerText);    
- });
 
 function todayForecast(currentWeatherURL) {
     currentWeatherURL = "https://api.openweathermap.org/data/2.5/weather?lat=" + cityLat + "&lon=" + cityLon + "&units=imperial" + appid;
@@ -147,3 +118,33 @@ function getFiveDay(fiveDayURL) {
         }
      })
 }
+
+//eventlisteners
+searchForm.addEventListener("submit", function newSearch(event) { 
+    event.preventDefault();
+    cityName = searchInput.value;     
+    //saving past searches to local storage and display as buttons in sidebar
+    if(!searchedCities.includes(cityName)){
+        searchedCities.push(cityName);
+        localStorage.setItem("searchedCities", JSON.stringify(searchedCities));
+    }
+    if (cityName){
+        getCoords(cityName);
+        searchHistory.innerHTML = "";
+    //repeats the appending of buttons in relation to saved in local storage
+        for (let index = 0; index < searchedCities.length; index++) {
+            var btnCityName = document.createElement("button");
+            btnCityName.setAttribute("class", "btn rounded border bg-secondary text-center");
+            btnCityName.setAttribute("id", "btn" + cityName);
+            btnCityName.textContent = searchedCities[index];
+            searchHistory.appendChild(btnCityName);
+        }
+     } else {
+        getCoords();
+     }
+ });
+
+ //click event on searched cities buttons, targets parent container and direct to dynamically created buttons if they exist
+ searchHistory.addEventListener("click", function btnCityClicky(event) {
+    getCoords(event.target.innerText);    
+ });
