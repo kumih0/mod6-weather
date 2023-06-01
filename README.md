@@ -78,6 +78,7 @@ The weather app includes a search option, a list of cities, and a five-day forec
 ```
 
 ## Screenshot
+<img width="1499" alt="Screen Shot 2023-06-01 at 12 50 29 AM" src="https://github.com/kumih0/mod6-weather/assets/132851569/6d01ecde-3085-4901-9bcd-f0367410aaf3">
 
 # Live Link
 
