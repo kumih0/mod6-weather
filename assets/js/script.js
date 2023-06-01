@@ -48,8 +48,7 @@ var searchedCities = JSON.parse(localStorage.getItem("searchedCities")) || [];
 
 searchForm.addEventListener("submit", function newSearch(event) { 
     event.preventDefault();
-    cityName = searchInput.value;
-    console.log(cityName);        
+    cityName = searchInput.value;     
     //saving past searches to local storage and display as buttons in sidebar
     if(!searchedCities.includes(cityName)){
         searchedCities.push(cityName);
@@ -58,10 +57,22 @@ searchForm.addEventListener("submit", function newSearch(event) {
     if (cityName){
         getCoords(cityName);
         searchHistory.innerHTML = "";
-
-
+    //repeats the appending of buttons in relation to saved in local storage
+        for (let index = 0; index < searchedCities.length; index++) {
+            var btnCityName = document.createElement("button");
+            btnCityName.setAttribute("class", "btn rounded border bg-secondary text-center");
+            btnCityName.setAttribute("id", "btn" + cityName);
+            btnCityName.textContent = searchedCities[index];
+            searchHistory.appendChild(btnCityName);
         }
+     } else {
+        getCoords();
+     }
+ });
 
+ //click event on searched cities buttons, targets parent container and direct to dynamically created buttons if they exist
+ searchHistory.addEventListener("click", function btnCityClicky(event) {
+    getCoords(event.target.innerText);    
  });
 
 function todayForecast(currentWeatherURL) {
@@ -83,9 +94,7 @@ function todayForecast(currentWeatherURL) {
 
         getFiveDay();
     })
-
 }
-
 
 //5 day forecast: dynamically create new div card elements to contain data from five day forecast fetch. pre-selected relevant array indexes of data due to three hour step in api data call (midday-ish time for forecast reading)
 function getFiveDay(fiveDayURL) {
@@ -137,5 +146,4 @@ function getFiveDay(fiveDayURL) {
             cardDiv.appendChild(weekDayEl);
         }
      })
-    
 }
