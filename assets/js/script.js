@@ -19,18 +19,18 @@ var searchHistory = document.getElementById("search-history");
 //creates array for search history of cities in local storage
 var searchedCities = JSON.parse(localStorage.getItem("searchedCities")) || [];
 
-getCoords(cityName); //sets default to chicago
+getCoords("Chicago"); //sets default to chicago
 
 //functions
 function getCoords(cityName){
     // creating modular fetch request url, location city name can be open for user input.
     // if no user input to draw from, will default to chicago
-    if (cityName !== "") {
-        cityNameEl.textContent = cityName;
-        geocodeURL = "http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&limit=1" + appid;
-    } else{
+    if (cityName === undefined) {
         cityNameEl.textContent = "Chicago";
         geocodeURL = "http://api.openweathermap.org/geo/1.0/direct?q=Chicago&limit=1" + appid;
+    } else{
+        cityNameEl.textContent = cityName;
+        geocodeURL = "http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&limit=1" + appid;
     }
 
     fetch(geocodeURL)
