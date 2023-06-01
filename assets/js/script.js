@@ -1,21 +1,28 @@
 var geocodeBaseURL = "http://api.openweathermap.org/geo/1.0/direct";
 var currentWeatherBaseURL = "https://api.openweathermap.org/data/2.5/weather"
+
 var searchInput = document.getElementById("search-input");
 var searchForm = document.getElementById("search-form");
+
 var currentForecast = document.getElementById("today-forecast-container");
 var todayWeatherEl = document.getElementById("today-forecast");
+var fiveDayForecast = document.getElementById("week-forecast-container");
+var fiveDayEl = document.getElementById("week-forecast");
+
 var cityName = document.getElementById("city-name");
 var dateToday = dayjs().format(" (M/D/YYYY)");
 var dateTodayEl = document.getElementById("date-today");
-var cityLat;
-var cityLon;
+
+var cityLat = 41.8755616;
+var cityLon = -87.6244212;
 var q = "";    
 var appid = "&appid=1f009ad3e6df93960048fd13eb3d2cc2";
-var temp;
-var wind;
-var humidity;
+
+// var temp;
+// var wind;
+// var humidity;
 var geocodeURL = geocodeBaseURL +"?" + "q=Chicago" + "&limit=1" + appid;
-var currentWeatherURL = "";
+
 function setDate() {
     dateTodayEl.innerText = dateToday;
     return
@@ -54,7 +61,6 @@ function makeGeoURL() {
 
 getCoords(geocodeURL);
 
-
 function newSearch() {
     if (q == "") {
         //add error msg?
@@ -71,22 +77,17 @@ searchForm.addEventListener("submit", newSearch);
 
 function todayForecast(currentWeatherURL) {
     currentWeatherURL = currentWeatherBaseURL +"?lat=" + cityLat + "&lon=" + cityLon + "&units=imperial" + appid;
-    
-    console.log(currentWeatherURL);
+
     fetch(currentWeatherURL)
     .then(function (response) {  
        return response.json()
     })
     .then(function (data) {  
-        console.log(data);
-
         let iconPng = "https://openweathermap.org/img/wn/" + data.weather[0].icon + ".png";
-        console.log(iconPng);
-        temp = data.main.temp;
-        wind = data.wind.speed;
-        humidity = data.main.humidity;
 
-        console.log(temp, wind, humidity);
+        let temp = data.main.temp;
+        let wind = data.wind.speed;
+        let humidity = data.main.humidity;
 
         document.getElementById("today-icon").src = iconPng;
         todayWeatherEl.innerText = "Temp: " + temp + "ºF" + "\r\n" + "Wind: " + wind + "mph" + "\r\n" + "Humidity: " + humidity + "%";
@@ -96,3 +97,17 @@ function todayForecast(currentWeatherURL) {
 
 }
 
+
+//5 day forecast
+function getFiveDay(fiveDayURL) {
+    fiveDayURL = "https://api.openweathermap.org/data/2.5/forecast?lat=" + cityLat + "&lon=" + cityLon + "&units=imperial" + appid;
+
+    fetch(fiveDayURL)
+    .then(function (response) {
+        return response.json()
+    })
+    .then(function (data) { 
+        
+     })
+    
+}
