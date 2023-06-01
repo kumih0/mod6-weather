@@ -10,8 +10,9 @@ var fiveDayForecast = document.getElementById("week-forecast-container");
 var fiveDayEl = document.getElementById("week-forecast");
 
 var cityName = document.getElementById("city-name");
-var dateToday = dayjs().format(" (M/D/YYYY)");
+// var dateToday = dayjs().format(" (M/D/YYYY)");
 var dateTodayEl = document.getElementById("date-today");
+dateTodayEl.innerText = dayjs().format(" (M/D/YYYY)");
 
 var cityLat = 41.8755616;
 var cityLon = -87.6244212;
@@ -23,11 +24,11 @@ var appid = "&appid=1f009ad3e6df93960048fd13eb3d2cc2";
 // var humidity;
 var geocodeURL = geocodeBaseURL +"?" + "q=Chicago" + "&limit=1" + appid;
 
-function setDate() {
-    dateTodayEl.innerText = dateToday;
-    return
-}
-setDate();
+// function setDate() {
+//     dateTodayEl.innerText = dateToday;
+//     return
+// }
+// setDate();
 
 function getCoords(geocodeURL){
     console.log(geocodeURL);
@@ -126,7 +127,7 @@ function getFiveDay(fiveDayURL) {
 
             var dayDate = document.weekDayEl.getElementsByClassName("card-title");
             console.log(dayDate);
-            dayDate.innerText
+            dayDate.innerText = dayjs(weekArray[index].dt_txt).format("M/D/YYYY");
 
             var weatherIcon = document.getElementById("weather-icon");
             weatherIcon.setAttribute("id", "weather-icon" + [index]);
